@@ -2,7 +2,9 @@ const $container = document.querySelector(".container");
 const $buttonSquare = document.querySelector(".buttonSq");
 const $buttonReload = document.querySelector(".buttonReload");
 const $buttonDelete = document.querySelector(".buttonDelete");
+const $checkColors = document.querySelector(".checkbox");
 
+// squars per side function
 $buttonSquare.addEventListener("click", () => {
     let squares = parseInt(prompt("Squares per side: "));
     if (squares > 100 || squares < 1) {
@@ -11,19 +13,21 @@ $buttonSquare.addEventListener("click", () => {
     square(squares); 
 })
 
+// reload function
 $buttonReload.addEventListener("click", () => {
     location.reload();
 });
+
+// delete function
 $buttonDelete.addEventListener("click", () => {
     const $node = document.querySelectorAll(".square");
     arrayNode = [...$node];
     arrayNode.forEach(element => {
-        element.classList.remove("colorNumber");
+        element.style.backgroundColor = "transparent";
     })
 });
 
-//let squares = 16;
-
+//squares function
 const square = function (squares) {
     let i = 1
     let side = 100/squares.toString() + "%";
@@ -38,10 +42,37 @@ const square = function (squares) {
     const arrayNode = [...$node];    
     arrayNode.forEach(element => { 
         element.style.width = side; 
-        element.style.height = side;   
-        element.addEventListener("mouseover", () => {
-            element.classList.add("colorNumber");
-        });                
+        element.style.height = side;
+        if ($checkColors.checked)  {
+            element.addEventListener("mouseenter", () => {
+                element.style.backgroundColor = setBackground();                     
+            }); 
+                      
+        } 
+        else {
+            element.addEventListener("mouseenter", () => {
+                element.style.backgroundColor = "green";                 
+            });
+                       
+        }
     });
 }
+
+// generate random color function
+const generateRandomColor = function () {
+    const r = Math.floor(Math.random()*256);
+    const g = Math.floor(Math.random()*256);
+    const b = Math.floor(Math.random()*256);
+    const rgbColor = `rgb(${r}, ${g}, ${b})`;
+    return rgbColor;
+}
+
+// set bg color function
+const setBackground = function() {
+    const newColor = generateRandomColor();
+    return newColor;
+}
+
+
+
 
